@@ -1,7 +1,6 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 export const useProductStore = defineStore("ProductStore", {
   state: () => {
-    // const route = useRoute();
     return {
       /**
        * The listing of all the products
@@ -34,12 +33,12 @@ export const useProductStore = defineStore("ProductStore", {
   },
   actions: {
     async fetchProducts() {
-      const {$contentful} = useNuxtApp();
-      const res = await $contentful.getEntries({
+      const { $contentful } = useNuxtApp();
+      const entries = await $contentful.getEntries({
         content_type: "product",
-        ... this.filters,
+        ...this.activeFilters,
       });
-      this.products = res.items;
+      this.products = entries.items;
       return this.products;
     },
     async fetchProduct(id) {
