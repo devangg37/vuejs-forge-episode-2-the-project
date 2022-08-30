@@ -12,9 +12,9 @@ export const useProductStore = defineStore("ProductStore", {
        * Different ways of fetching the listing of products (filters, order, search)
        */
       filters: {
-        "fields.heatLevel": "",
-        order: "",
-        query: "",
+        "fields.heatLevel": useRoute().query["fields.heatLevel"] || "",
+        order: useRoute().query.order || "",
+        query: useRoute().query.query || "",
       },
 
       /**
@@ -37,6 +37,7 @@ export const useProductStore = defineStore("ProductStore", {
       const {$contentful} = useNuxtApp();
       const res = await $contentful.getEntries({
         content_type: "product",
+        ... this.filters,
       });
       this.products = res.items;
       return this.products;
